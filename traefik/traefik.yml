@@ -1,0 +1,23 @@
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entrypoint:
+          to: websecure
+          scheme: https
+
+  websecure:
+    address: ":443"
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: jense.cool@hotmail.be
+      storage: acme.json
+      httpChallenge:
+        entryPoint: web
+providers:
+  docker:
+    network: examen_network
+api:
+  dashboard: true
