@@ -1,0 +1,35 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: ./frontend
+    depends_on:
+      - backend
+    networks:
+      - examen_network
+  backend:
+    build:
+      context: ./chatAPI
+    depends_on:
+      - mongodb
+    networks:
+      - examen_network
+  mongodb:
+    image: mongo:5.0.6
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: S3cret
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+    networks:
+      - examen_network    
+networks:
+  examen_network:
+    external: true
+volumes:
+  mongo-data:
+
+
